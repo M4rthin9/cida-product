@@ -61,7 +61,7 @@ node extract.js    # สร้าง public/data/products.json + ภาพ place
 
 | ไฟล์ที่ต้องการ                     | ผลลัพธ์                                   |
 | --------------------------------- | ---------------------------------------- |
-| `public/images/<barcode>.jpg`     | รูปจริง (jpg/png/webp ตามต้องการ)        |
+| `public/images/<barcode>.jpg`     | รูปจริง (ต้องเป็น `.jpg` ตัวพิมพ์เล็กเท่านั้น — เซิร์ฟเวอร์ Linux/Cloudflare แยกตัวพิมพ์เล็ก-ใหญ่ ไม่เหมือน Windows) |
 | `public/images/<barcode>.svg`     | ภาพสำรองอัตโนมัติจาก extract.js          |
 
 ระบบจะแสดง `.jpg` เมื่อมีไฟล์ ถ้าไม่มีจะแสดง SVG placeholder อัตโนมัติ (ไม่มีรูปจริงก็ใช้งานได้ทันที)
