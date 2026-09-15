@@ -15,7 +15,6 @@
     price: document.getElementById('modalPrice'),
     dim: document.getElementById('modalDim'),
     weight: document.getElementById('modalWeight'),
-    barcode: document.getElementById('modalBarcode'),
     note: document.getElementById('modalNote'),
     desc: document.getElementById('modalDesc')
   };
@@ -122,7 +121,6 @@
     modalEls.price.textContent = money(s.price);
     modalEls.dim.textContent = s.dimension || '—';
     modalEls.weight.textContent = s.weight || '—';
-    modalEls.barcode.textContent = s.barcode + ' (EAN-13)';
     modalEls.note.textContent = s.note || '';
     modalEls.desc.textContent = s.description || '';
     modalEls.note.style.display = s.note ? '' : 'none';
