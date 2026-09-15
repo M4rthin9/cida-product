@@ -5,33 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>แคตตาล็อกผลิตภัณฑ์ราชทัณฑ์</title>
   <meta name="description" content="แคตตาล็อกผลิตภัณฑ์ ทัณฑสถานบำบัดพิเศษกลาง ทัณฑสถานหญิงกลาง และเรือนจำพิเศษธนบุรี">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">
-        <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">
-          <rect x="2" y="7" width="28" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 13 h28 M22 7 v6" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <span class="brand-text">
-          <strong>แคตตาล็อกผลิตภัณฑ์ราชทัณฑ์</strong>
-          <small>ผลิตภัณฑ์จากเรือนจำและทัณฑสถาน</small>
-        </span>
-      </a>
+  <header class="hero">
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <span class="hero-eyebrow">Correctional Department</span>
+      <h1 class="hero-title">แคตตาล็อกผลิตภัณฑ์ราชทัณฑ์</h1>
+      <p class="hero-sub">ผลิตภัณฑ์จากเรือนจำและทัณฑสถาน</p>
+      <div class="hero-line"></div>
     </div>
   </header>
 
   <main class="container">
     <section class="toolbar" aria-label="ค้นหาและกรองสินค้า">
       <div class="search-box">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 16 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
         <input type="search" id="search" placeholder="ค้นหาชื่อสินค้า…" autocomplete="off">
+        <span class="search-icon">&#8594;</span>
       </div>
       <div class="company-filter">
         <span class="filter-label">แหล่งที่มา</span>
@@ -50,7 +45,7 @@
   <div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
     <div class="modal-backdrop" data-close></div>
     <div class="modal-card">
-      <button class="modal-close" data-close aria-label="ปิด">✕</button>
+      <button class="modal-close" data-close aria-label="ปิด">&#10005;</button>
       <div class="modal-head">
         <span class="badge" id="modalCompanyShort"></span>
         <span class="modal-id" id="modalId"></span>
@@ -71,8 +66,10 @@
   </div>
 
   <footer class="site-footer">
-    <div class="container">
-      จัดทำโดย mัณฑสถานบำบัดพิเศษกลาง - ฝ่ายฝึกวิชาชีพผู้ต้องขัง ส่วนพัฒนาผู้ต้องขัง
+    <div class="footer-line"></div>
+    <div class="container footer-inner">
+      <span class="footer-text">จัดทำโดย ทัณฑสถานบำบัดพิเศษกลาง</span>
+      <span class="footer-sub">ฝ่ายฝึกวิชาชีพผู้ต้องขัง · ส่วนพัฒนาผู้ต้องขัง</span>
     </div>
   </footer>
 
