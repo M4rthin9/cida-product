@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>แคตตาล็อกผลิตภัณฑ์ราชทัณฑ์</title>
-  <meta name="description" content="แคตตาล็อกผลิตภัณฑ์ ทัณฑสถานบำบัดพิเศษกลาง และ ทัณฑสถานหญิงกลาง">
+  <meta name="description" content="แคตตาล็อกผลิตภัณฑ์ ทัณฑสถานบำบัดพิเศษกลาง ทัณฑสถานหญิงกลาง และเรือนจำพิเศษธนบุรี">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
@@ -33,12 +33,10 @@
         </svg>
         <input type="search" id="search" placeholder="ค้นหาชื่อสินค้า…" autocomplete="off">
       </div>
-      <label class="filter-box">
-        <span>แหล่งที่มา</span>
-        <select id="companyFilter">
-          <option value="all">ทั้งหมด</option>
-        </select>
-      </label>
+      <div class="company-filter">
+        <span class="filter-label">แหล่งที่มา</span>
+        <div class="company-chips" id="companyChips" role="group" aria-label="กรองตามแหล่งที่มา"></div>
+      </div>
       <span class="result-count" id="resultCount"></span>
     </section>
 

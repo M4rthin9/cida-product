@@ -8,8 +8,9 @@ const IMAGES = path.join(PUBLIC, 'images');
 const OUT_JSON = path.join(PUBLIC, 'data', 'products.json');
 
 const FACILITIES = {
-  'ทัณฑสถานบำบัดพิเศษกลาง': { code: 'TBS', barcodeFacility: '0001' },
-  'ทัณฑสถานหญิงกลาง':       { code: 'THK', barcodeFacility: '0002' }
+  'ทัณฑสถานบำบัดพิเศษกลาง': { code: 'TBS', short: 'บำบัดพิเศษกลาง', color: '#166349', barcodeFacility: '0001' },
+  'ทัณฑสถานหญิงกลาง':       { code: 'THK', short: 'หญิงกลาง',       color: '#8a3a5c', barcodeFacility: '0002' },
+  'เรือนจำพิเศษธนบุรี':      { code: 'TNB', short: 'ธนบุรี',          color: '#2b5aa6', barcodeFacility: '0003' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -36,6 +37,23 @@ function toNumber(value) {
 function dimensionString(p) {
   const arr = [p.width, p.length, p.height].filter(v => v !== null && v !== undefined);
   return arr.length ? arr.join(' × ') + ' ซม.' : null;
+}
+
+// Parse loose size strings like "45 x 65 ซม." or "28 x 17 x 26.5 ซม."
+function parseSizeString(value) {
+  const raw = clean(toArabic(value));
+  const nums = raw.replace(/ซม\.?/g, '').split(/x|X|×/)
+    .map(s => parseFloat(s.replace(/,/g, ''))).filter(Number.isFinite);
+  return {
+    width: nums[0] ?? null,
+    length: nums[1] ?? null,
+    height: nums[2] ?? null,
+    dimension: raw || null
+  };
+}
+
+function logoPaths(code) {
+  return { logo: `images/logo-${code}.png`, logoFallback: `images/logo-${code}.svg` };
 }
 
 function ean13CheckDigit(base12) {
@@ -86,6 +104,16 @@ function makePlaceholderSvg(product) {
 `;
 }
 
+function makeLogoSvg(conf, facilityName) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <rect width="240" height="240" rx="52" fill="${conf.color}"/>
+  <circle cx="120" cy="120" r="96" fill="none" stroke="#ffffff" stroke-opacity="0.45" stroke-width="5"/>
+  <text x="120" y="138" text-anchor="middle" font-size="46" font-weight="bold" fill="#ffffff" font-family="Tahoma, 'Sukhumvit Set', sans-serif">${xmlEscape(conf.short)}</text>
+  <title>${xmlEscape(facilityName)}</title>
+</svg>
+`;
+}
+
 function loadRows(file) {
   const wb = XLSX.readFile(file, { cellDates: true });
   const sheetName = wb.SheetNames[0];
@@ -124,7 +152,9 @@ function extractRehab() {
     products.push({
       id,
       company: fixture,
-      companyShort: 'บำบัดพิเศษกลาง',
+      companyShort: conf.short,
+      companyCode: conf.code,
+      ...logoPaths(conf.code),
       name,
       description: clean(r[3]) || null,
       price,
@@ -187,7 +217,9 @@ function extractWomen() {
     return {
       id: p.id,
       company: fixture,
-      companyShort: 'หญิงกลาง',
+      companyShort: conf.short,
+      companyCode: conf.code,
+      ...logoPaths(conf.code),
       name: p.name,
       description: null,
       price: p.price,
@@ -208,21 +240,84 @@ function extractWomen() {
 }
 
 // ---------------------------------------------------------------------------
+// File 3: เรือนจำพิเศษธนบุรี
+// cols: ลำดับ, รายการ, ขนาด, ราคา   (header row 0, data from row 1)
+// ---------------------------------------------------------------------------
+function extractThonburi() {
+  const fixture = 'เรือนจำพิเศษธนบุรี';
+  const conf = FACILITIES[fixture];
+  const rows = loadRows(path.join(ROOT, 'ผลิตภัณฑ์ เรือนจำพิเศษธนบุรี.xlsx'));
+  const products = [];
+  let seq = 0;
+
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r) continue;
+    const name = clean(r[1]);
+    if (!name) continue;
+
+    seq += 1;
+    const id = `${conf.code}-${String(seq).padStart(2, '0')}`;
+    const size = parseSizeString(r[2]);
+    const price = toNumber(r[3]);
+    const barcode = makeBarcode(conf.barcodeFacility, seq);
+
+    products.push({
+      id,
+      company: fixture,
+      companyShort: conf.short,
+      companyCode: conf.code,
+      ...logoPaths(conf.code),
+      name,
+      description: null,
+      price,
+      width: size.width,
+      length: size.length,
+      height: size.height,
+      dimension: size.dimension,
+      weight: null,
+      stock: null,
+      note: null,
+      units: 1,
+      barcode,
+      image: `images/${barcode}.jpg`,
+      imageFallback: `images/${barcode}.svg`
+    });
+  }
+  return products;
+}
+
+// ---------------------------------------------------------------------------
 function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
 
-  const products = [...extractRehab(), ...extractWomen()];
+  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi()];
 
   for (const p of products) {
     fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
+  }
+
+  // Company logo placeholders — written only when missing so real logos are never overwritten.
+  for (const [name, conf] of Object.entries(FACILITIES)) {
+    const png = path.join(IMAGES, `logo-${conf.code}.png`);
+    const svg = path.join(IMAGES, `logo-${conf.code}.svg`);
+    if (!fs.existsSync(png) && !fs.existsSync(svg)) {
+      fs.writeFileSync(svg, makeLogoSvg(conf, name), 'utf8');
+    }
   }
 
   const payload = {
     meta: {
       generatedAt: new Date().toISOString(),
       facility: Object.values(FACILITIES).map(c => c.code),
-      count: products.length
+      count: products.length,
+      companies: Object.entries(FACILITIES).map(([name, c]) => ({
+        code: c.code,
+        name,
+        short: c.short,
+        ...logoPaths(c.code)
+      }))
     },
     products
   };

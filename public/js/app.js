@@ -4,7 +4,7 @@
   const grid = document.getElementById('grid');
   const emptyBox = document.getElementById('empty');
   const searchInput = document.getElementById('search');
-  const companyFilter = document.getElementById('companyFilter');
+  const chipsEl = document.getElementById('companyChips');
   const resultCount = document.getElementById('resultCount');
   const modal = document.getElementById('modal');
   const modalEls = {
@@ -23,11 +23,16 @@
   let products = [];
   let filtered = [];
   let model = null;
+  let companies = [];
+  let companySel = 'all';
 
   const money = (n) => (n == null ? '—' : n.toLocaleString('th-TH') + ' บาท');
 
-  function badgeClass(company) {
-    return company.includes('หญิง') ? 'badge women' : 'badge';
+  function badgeClass(p) {
+    const code = typeof p === 'string' ? p : p.companyCode;
+    if (code === 'THK') return 'badge women';
+    if (code === 'TNB') return 'badge thon';
+    return 'badge';
   }
 
   function cardMarkup(p) {
@@ -39,7 +44,7 @@
         <div class="card-body">
           <div class="card-top">
             <h3 class="card-name">${escapeHtml(p.name)}</h3>
-            <span class="${badgeClass(p.company)}">${escapeHtml(p.companyShort)}</span>
+            <span class="${badgeClass(p)}">${escapeHtml(p.companyShort)}</span>
           </div>
           <div class="card-price">${money(p.price)}</div>
           <div class="card-meta">
@@ -69,7 +74,7 @@
 
   function applyFilters() {
     const q = searchInput.value.trim().toLowerCase();
-    const c = companyFilter.value;
+    const c = companySel;
     filtered = products.filter((p) => {
       const matchCompany = c === 'all' || p.company === c;
       const matchSearch = !q ||
@@ -80,13 +85,37 @@
     render();
   }
 
+  function chipMarkup(c, active) {
+    if (c.all) {
+      return `<button class="chip${active ? ' active' : ''}" data-company="all" aria-pressed="${active}">ทั้งหมด</button>`;
+    }
+    return `<button class="chip${active ? ' active' : ''}" data-company="${escapeAttr(c.name)}" aria-pressed="${active}" title="${escapeAttr(c.name)}">` +
+      `<img src="${escapeAttr(c.logo)}" onerror="this.onerror=null;this.src='${escapeAttr(c.logoFallback)}'" alt="" loading="lazy">` +
+      `<span>${escapeHtml(c.short)}</span></button>`;
+  }
+
+  function renderChips() {
+    chipsEl.innerHTML = [{ all: true }]
+      .concat(companies)
+      .map((c) => chipMarkup(c, (c.all ? 'all' : c.name) === companySel))
+      .join('');
+  }
+
+  chipsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    companySel = btn.dataset.company;
+    renderChips();
+    applyFilters();
+  });
+
   function openModal(id) {
     model = products.find((p) => p.id === id);
     if (!model) return;
     const s = model;
     modalEls.id.textContent = 'รหัสสินค้า ' + s.id;
     modalEls.companyShort.textContent = s.company;
-    modalEls.companyShort.className = badgeClass(s.company);
+    modalEls.companyShort.className = badgeClass(s);
     modalEls.image.src = s.image;
     modalEls.image.onerror = function () { this.onerror = null; this.src = s.imageFallback; };
     modalEls.name.textContent = s.name;
@@ -111,19 +140,17 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
   searchInput.addEventListener('input', applyFilters);
-  companyFilter.addEventListener('change', applyFilters);
 
   fetch('data/products.json')
     .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then((data) => {
       products = data.products || [];
-      const companies = [...new Set(products.map((p) => p.company))];
-      companies.forEach((c) => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.textContent = c;
-        companyFilter.appendChild(opt);
-      });
+      companies = data.meta && data.meta.companies ? data.meta.companies :
+        [...new Map(products.map((p) => [p.company, {
+          code: p.companyCode, name: p.company, short: p.companyShort,
+          logo: p.logo, logoFallback: p.logoFallback
+        }])).values()];
+      renderChips();
       applyFilters();
 
       const wanted = new URLSearchParams(location.search).get('product');
