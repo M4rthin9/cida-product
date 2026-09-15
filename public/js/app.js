@@ -89,9 +89,9 @@
     if (c.all) {
       return `<button class="chip${active ? ' active' : ''}" data-company="all" aria-pressed="${active}">ทั้งหมด</button>`;
     }
-    return `<button class="chip${active ? ' active' : ''}" data-company="${escapeAttr(c.name)}" aria-pressed="${active}" title="${escapeAttr(c.name)}">` +
+    return `<button class="chip${active ? ' active' : ''}" data-company="${escapeAttr(c.name)}" aria-pressed="${active}">` +
       `<img src="${escapeAttr(c.logo)}" onerror="this.onerror=null;this.src='${escapeAttr(c.logoFallback)}'" alt="" loading="lazy">` +
-      `<span>${escapeHtml(c.short)}</span></button>`;
+      `<span>${escapeHtml(c.name)}</span></button>`;
   }
 
   function renderChips() {
