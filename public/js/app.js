@@ -86,11 +86,13 @@
 
   function chipMarkup(c, active) {
     if (c.all) {
-      return `<button class="chip${active ? ' active' : ''}" data-company="all" aria-pressed="${active}">ทั้งหมด</button>`;
+      return `<button class="chip chip-all${active ? ' active' : ''}" data-company="all" aria-pressed="${active}">` +
+        `<span class="chip-all-icon">&#9673;</span>` +
+        `<span class="chip-all-text">ทั้งหมด</span></button>`;
     }
     return `<button class="chip${active ? ' active' : ''}" data-company="${escapeAttr(c.name)}" aria-pressed="${active}">` +
-      `<img src="${escapeAttr(c.logo)}" onerror="this.onerror=null;this.src='${escapeAttr(c.logoFallback)}'" alt="" loading="lazy">` +
-      `<span>${escapeHtml(c.name)}</span></button>`;
+      `<span class="chip-logo"><img src="${escapeAttr(c.logo)}" onerror="this.onerror=null;this.src='${escapeAttr(c.logoFallback)}'" alt="" loading="lazy"></span>` +
+      `<span class="chip-name">${escapeHtml(c.short || c.name)}</span></button>`;
   }
 
   function renderChips() {
