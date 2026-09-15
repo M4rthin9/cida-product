@@ -5,6 +5,7 @@
   const emptyBox = document.getElementById('empty');
   const searchInput = document.getElementById('search');
   const chipsEl = document.getElementById('companyChips');
+  const chipAllEl = document.getElementById('chipAll');
   const resultCount = document.getElementById('resultCount');
   const modal = document.getElementById('modal');
   const modalEls = {
@@ -85,21 +86,23 @@
   }
 
   function chipMarkup(c, active) {
-    if (c.all) {
-      return `<button class="chip chip-all${active ? ' active' : ''}" data-company="all" aria-pressed="${active}">` +
-        `<span class="chip-all-text">ทั้งหมด</span></button>`;
-    }
     return `<button class="chip${active ? ' active' : ''}" data-company="${escapeAttr(c.name)}" aria-pressed="${active}">` +
       `<span class="chip-logo"><img src="${escapeAttr(c.logo)}" onerror="this.onerror=null;this.src='${escapeAttr(c.logoFallback)}'" alt="" loading="lazy"></span>` +
       `<span class="chip-name">${escapeHtml(c.name)}</span></button>`;
   }
 
   function renderChips() {
-    chipsEl.innerHTML = [{ all: true }]
-      .concat(companies)
-      .map((c) => chipMarkup(c, (c.all ? 'all' : c.name) === companySel))
+    chipsEl.innerHTML = companies
+      .map((c) => chipMarkup(c, c.name === companySel))
       .join('');
+    chipAllEl.classList.toggle('active', companySel === 'all');
   }
+
+  chipAllEl.addEventListener('click', () => {
+    companySel = 'all';
+    renderChips();
+    applyFilters();
+  });
 
   chipsEl.addEventListener('click', (e) => {
     const btn = e.target.closest('.chip');
