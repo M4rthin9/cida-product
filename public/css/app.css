@@ -119,7 +119,7 @@ body {
   text-transform: uppercase; letter-spacing: .15em;
   white-space: nowrap;
 }
-.company-chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+.company-chips { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; flex: 1; }
 .chip {
   display: inline-flex; flex-direction: column; align-items: center; gap: .5rem;
   font-family: inherit; font-size: .72rem; font-weight: 600;
@@ -158,25 +158,28 @@ body {
 .chip-name {
   line-height: 1.2;
   text-align: center;
-  max-width: 80px;
+  max-width: 90px;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .chip-all {
-  background: var(--surface-2);
-  border-style: dashed;
+  background: transparent;
+  border: 1px dashed var(--gold-dark);
+  min-width: 70px;
+  padding: .5rem .8rem;
 }
-.chip-all-icon {
-  font-size: 1.4rem; color: var(--gold-dark);
-  line-height: 1;
-  width: 48px; height: 48px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-  border: 1.5px dashed var(--line);
-  transition: border-color .25s, color .25s;
+.chip-all:hover {
+  border-color: var(--gold);
+  background: rgba(201, 168, 76, .06);
 }
-.chip-all:hover .chip-all-icon { border-color: var(--gold-dark); color: var(--gold); }
-.chip-all.active .chip-all-icon { border-color: var(--gold); color: var(--gold); border-style: solid; }
-.chip-all-text { font-size: .72rem; }
+.chip-all.active {
+  border-style: solid;
+  background: rgba(201, 168, 76, .08);
+}
+.chip-all-text {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
 .result-count {
   font-size: .75rem; color: var(--muted);
   white-space: nowrap; margin-left: auto;
