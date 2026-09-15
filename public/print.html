@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>พิมพ์ป้ายราคา — แคตตาล็อกผลิตภัณฑ์ราชทัณฑ์</title>
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+
+  <header class="no-print toolbar">
+    <div class="bar-inner">
+      <a class="btn btn-back" href="index.html">← กลับแคตตาล็อก</a>
+      <h1>เครื่องมือพิมพ์ป้ายราคา</h1>
+      <label class="count-option">
+        จำนวนป้ายต่อสินค้า
+        <select id="countMode">
+          <option value="1">1 ใบต่อรายการ</option>
+          <option value="units">ตามหน่วย (สินค้าที่ซ้ำกัน)</option>
+          <option value="stock">ตามสต๊อกคงเหลือ</option>
+        </select>
+      </label>
+      <button class="btn btn-main" id="btnPrint">พิมพ์ป้าย (Ctrl+P)</button>
+    </div>
+    <div class="bar-hint">
+      ขนาดป้าย <strong>5.5 × 9 ซม.</strong> · แผ่น A4 จำนวน 9 ป้าย/หน้า · ตั้งค่ากระดาษ A4, ระยะขอบ 0, ปรับสเกล 100%
+    </div>
+    <label class="search-line">
+      ค้นหา: <input type="search" id="tagSearch" placeholder="กรองสินค้าที่จะพิมพ์…">
+      <span id="tagCount"></span>
+    </label>
+  </header>
+
+  <main id="tags" class="tag-grid" aria-live="polite"></main>
+
+  <div class="no-print sticky-footer">
+    <button class="btn btn-main" id="btnPrint2">พิมพ์ป้ายทั้งหมด</button>
+  </div>
+
+  <noscript>กรุณาเปิดใช้งาน JavaScript เพื่อสร้างป้าย</noscript>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <script src="js/print.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "catalog",
+  "version": "1.0.0",
+  "description": "Product catalog & price tag generator for Thai correctional facilities",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "extract": "node extract.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

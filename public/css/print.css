@@ -1,0 +1,149 @@
+:root {
+  --ink: #1c1917;
+  --muted: #6b655c;
+  --accent: #166349;
+  --price: #b23b18;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans Thai", "Sarabun", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: #ece9e2;
+}
+
+.no-print { user-select: none; }
+
+/* ---------- screen toolbar ---------- */
+.toolbar { background: #166349; color: #fff; padding: 1rem 1.2rem .8rem; }
+.bar-inner { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; max-width: 1280px; margin: 0 auto; }
+.bar-inner h1 { font-size: 1.05rem; margin: 0 0 0 .2rem; flex: 1; }
+.bar-hint { max-width: 1280px; margin: .5rem auto 0; font-size: .78rem; color: #c9e4da; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: inherit; font-weight: 600; font-size: .86rem; text-decoration: none;
+  border: 0; border-radius: 9px; padding: .55rem .95rem; cursor: pointer;
+  color: #fff; background: #2d8670;
+}
+.btn:hover { background: #379a82; }
+.btn-main { background: #ffd44d; color: #3d2f08; }
+.btn-main:hover { background: #ffe073; }
+.btn-back { background: #2d8670; }
+
+.count-option { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: #d9efe8; }
+.count-option select, .search-line input {
+  font-family: inherit; font-size: .85rem; padding: .45rem .5rem; border-radius: 8px; border: 1px solid #c5e2d7;
+}
+.count-option select { background: #fff; color: var(--ink); }
+
+.search-line {
+  max-width: 1280px; margin: .7rem auto 0; display: flex; align-items: center; gap: .5rem;
+  font-size: .82rem; color: #d9efe8;
+}
+.search-line input { flex: 1; max-width: 360px; }
+
+.sticky-footer {
+  position: sticky; bottom: 0; display: flex; justify-content: center;
+  padding: .8rem; background: linear-gradient(transparent, rgba(0, 0, 0, .18));
+  pointer-events: none;
+}
+.sticky-footer .btn { pointer-events: auto; }
+
+/* ---------- tag grid (screen) ---------- */
+.tag-grid {
+  display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center;
+  padding: 1.5rem 1rem 3rem; max-width: 1280px; margin: 0 auto;
+}
+.tag-placeholder { font-size: .8rem; color: var(--muted); }
+
+/* ---------- the tag ---------- */
+.tag {
+  width: 5.5cm;
+  height: 9cm;
+  background: #fff;
+  border: 1px solid #d9d4c9;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: .28cm .3cm;
+  overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.tag-company {
+  font-size: .26cm; font-weight: 800; line-height: 1.2;
+  color: var(--accent); letter-spacing: .2px;
+}
+.tag-code { font-size: .17cm; color: #999; margin-top: .04cm; letter-spacing: .3px; }
+
+.tag-image {
+  flex: none;
+  width: 4.3cm; height: 2.9cm;
+  margin: .2cm auto 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: #f4f2ec; border-radius: 2px;
+}
+.tag-image img { width: 100%; height: 100%; object-fit: contain; }
+
+.tag-name {
+  margin: .14cm 0 0;
+  font-size: .3cm; font-weight: 800; line-height: 1.2;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  min-height: .72cm;
+}
+
+.tag-price {
+  font-size: .62cm; font-weight: 900; line-height: 1; margin-top: .12cm; color: var(--price);
+  white-space: nowrap;
+}
+.tag-price small { font-size: .26cm; font-weight: 700; margin-left: .08cm; }
+
+.tag-dim {
+  font-size: .21cm; color: var(--muted); margin-top: .08cm; line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.tag-barcode {
+  margin-top: auto;
+  text-align: center;
+}
+.tag-barcode svg { max-width: 100% !important; height: 1.15cm !important; width: auto; margin: 0 auto; }
+
+/* ---------- print ---------- */
+@page { size: A4; margin: 0; }
+
+@media print {
+  html, body { background: #fff; }
+  .no-print { display: none !important; }
+  .tag-grid {
+    display: flex; flex-wrap: wrap;
+    width: 16.5cm;                 /* 3 × 5.5 cm */
+    margin: 0 auto;
+    justify-content: flex-start;
+    gap: 0; padding: 0;
+  }
+  .tag {
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .sticky-footer, .search-line, .toolbar { display: none !important; }
+
+  @page :first { margin: 0; }
+}
+
+@media screen and (max-width: 700px) {
+  .bar-inner { align-items: stretch; }
+  .bar-inner h1 { flex-basis: 100%; }
+  .count-option { flex-wrap: wrap; }
+}
