@@ -35,57 +35,31 @@ body {
 .hero {
   position: relative;
   background: var(--black);
-  color: #fff;
-  text-align: center;
-  padding: 4.5rem 0 4rem;
+  width: 100%;
+  height: clamp(180px, 28vw, 400px);
   overflow: hidden;
   border-bottom: 1px solid var(--gold);
 }
 .hero::before {
   content: "";
   position: absolute; inset: 0;
+  background: url('../images/banner.jpg') center / cover no-repeat;
+  z-index: 1;
+}
+.hero::after {
+  content: "";
+  position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 800px 400px at 30% 50%, rgba(201, 168, 76, .1), transparent),
-    radial-gradient(ellipse 600px 300px at 70% 40%, rgba(201, 168, 76, .06), transparent);
-  pointer-events: none;
+    linear-gradient(180deg, rgba(8, 7, 6, .25) 0%, transparent 25%, transparent 75%, rgba(8, 7, 6, .4) 100%);
+  z-index: 2;
 }
 .hero-pattern {
   position: absolute; inset: 0;
-  opacity: .08;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 C68 25, 80 30, 60 60 C40 30, 52 25, 60 10Z' fill='%23c9a84c'/%3E%3Cpath d='M60 60 C68 75, 80 80, 60 110 C40 80, 52 75, 60 60Z' fill='%23c9a84c'/%3E%3Cpath d='M10 60 C25 52, 30 40, 60 60 C30 80, 25 68, 10 60Z' fill='%23c9a84c'/%3E%3Cpath d='M110 60 C95 52, 90 40, 60 60 C90 80, 95 68, 110 60Z' fill='%23c9a84c'/%3E%3Cpath d='M60 10 C65 18, 70 22, 60 35 C50 22, 55 18, 60 10Z' fill='%23c9a84c' fill-opacity='.5'/%3E%3Cpath d='M60 85 C65 93, 70 97, 60 110 C50 97, 55 93, 60 85Z' fill='%23c9a84c' fill-opacity='.5'/%3E%3C/svg%3E");
+  opacity: .06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 10 C68 25, 80 30, 60 60 C40 30, 52 25, 60 10Z' fill='%23c9a84c'/%3E%3Cpath d='M60 60 C68 75, 80 80, 60 110 C40 80, 52 75, 60 60Z' fill='%23c9a84c'/%3E%3Cpath d='M10 60 C25 52, 30 40, 60 60 C30 80, 25 68, 10 60Z' fill='%23c9a84c'/%3E%3Cpath d='M110 60 C95 52, 90 40, 60 60 C90 80, 95 68, 110 60Z' fill='%23c9a84c'/%3E%3C/svg%3E");
   background-size: 120px 120px;
   pointer-events: none;
-}
-.hero-inner { position: relative; z-index: 1; }
-.hero-eyebrow {
-  display: block;
-  font-size: .65rem; font-weight: 700;
-  letter-spacing: .45em; text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: .8rem;
-}
-.hero-title {
-  margin: 0;
-  font-size: 2rem; font-weight: 300;
-  letter-spacing: .12em;
-  line-height: 1.4;
-  color: #fff;
-}
-.hero-sub {
-  margin: .7rem 0 0;
-  font-size: .9rem; font-weight: 300;
-  color: rgba(255, 255, 255, .4);
-  letter-spacing: .04em;
-}
-.hero-line {
-  width: 80px; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 1.8rem auto 0;
-}
-.hero-ornament {
-  margin: 1.8rem auto 0;
-  text-align: center;
-  line-height: 0;
+  z-index: 3;
 }
 
 /* ========== TOOLBAR ========== */
@@ -357,8 +331,6 @@ body {
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 560px) {
-  .hero { padding: 3rem 0 2.5rem; }
-  .hero-title { font-size: 1.4rem; letter-spacing: .06em; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
   .card-body { padding: .65rem .7rem .85rem; }
   .card-name { font-size: .85rem; }

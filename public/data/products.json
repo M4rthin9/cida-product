@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generatedAt": "2026-09-15T08:56:43.839Z",
+    "generatedAt": "2026-09-15T11:42:37.057Z",
     "facility": [
       "TBS",
       "THK",
       "TNB"
     ],
-    "count": 235,
+    "count": 237,
     "companies": [
       {
         "code": "TBS",
@@ -1135,6 +1135,52 @@
       "barcode": "8850001000484",
       "image": "images/8850001000484.jpg",
       "imageFallback": "images/8850001000484.svg"
+    },
+    {
+      "id": "TBS-49",
+      "company": "ทัณฑสถานบำบัดพิเศษกลาง",
+      "companyShort": "บำบัดพิเศษกลาง",
+      "companyCode": "TBS",
+      "logo": "images/logo-TBS.png",
+      "logoFallback": "images/logo-TBS.svg",
+      "name": "กระเป๋าผ้า น้องรอคอย",
+      "description": null,
+      "price": 300,
+      "priceShip": null,
+      "width": null,
+      "length": null,
+      "height": null,
+      "dimension": null,
+      "weight": null,
+      "stock": null,
+      "note": null,
+      "units": 1,
+      "barcode": "8850001000491",
+      "image": "images/8850001000491.jpg",
+      "imageFallback": "images/8850001000491.svg"
+    },
+    {
+      "id": "TBS-50",
+      "company": "ทัณฑสถานบำบัดพิเศษกลาง",
+      "companyShort": "บำบัดพิเศษกลาง",
+      "companyCode": "TBS",
+      "logo": "images/logo-TBS.png",
+      "logoFallback": "images/logo-TBS.svg",
+      "name": "ร่ม น้องรอคอย",
+      "description": null,
+      "price": 450,
+      "priceShip": null,
+      "width": null,
+      "length": null,
+      "height": null,
+      "dimension": null,
+      "weight": null,
+      "stock": null,
+      "note": null,
+      "units": 1,
+      "barcode": "8850001000507",
+      "image": "images/8850001000507.jpg",
+      "imageFallback": "images/8850001000507.svg"
     },
     {
       "id": "THK-01",
