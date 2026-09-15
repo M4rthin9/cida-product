@@ -36,14 +36,15 @@ body {
   position: relative;
   background: var(--black);
   width: 100%;
-  height: clamp(180px, 28vw, 400px);
+  aspect-ratio: 2172 / 724;
+  max-height: 50vh;
   overflow: hidden;
   border-bottom: 1px solid var(--gold);
 }
 .hero::before {
   content: "";
   position: absolute; inset: 0;
-  background: url('../images/banner.jpg') center / cover no-repeat;
+  background: url('../images/banner.jpg') center / contain no-repeat;
   z-index: 1;
 }
 .hero::after {
