@@ -13,7 +13,8 @@ const FACILITIES = {
   'เรือนจำพิเศษธนบุรี':      { code: 'TNB', short: 'ธนบุรี',          color: '#2b5aa6', barcodeFacility: '0003' },
   'ทัณฑสถานหญิงชลบุรี':     { code: 'CBK', short: 'หญิงชลบุรี',      color: '#6b5b95', barcodeFacility: '0004' },
   'เรือนจำกลางนครปฐม':      { code: 'NPT', short: 'นครปฐม',         color: '#8c5e3c', barcodeFacility: '0005' },
-  'ทัณฑสถานหญิงพิษณุโลก':   { code: 'PSL', short: 'หญิงพิษณุโลก',    color: '#4a7c59', barcodeFacility: '0006' }
+  'ทัณฑสถานหญิงพิษณุโลก':   { code: 'PSL', short: 'หญิงพิษณุโลก',    color: '#4a7c59', barcodeFacility: '0006' },
+  'เรือนจำกลางเชียงราย':    { code: 'CRI', short: 'เชียงราย',         color: '#c77d3a', barcodeFacility: '0007' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -291,8 +292,8 @@ function extractThonburi() {
 }
 
 // ---------------------------------------------------------------------------
-// File 4 & 5: ทัณฑสถานหญิงชลบุรี / เรือนจำกลางนครปฐม
-// cols: ลำดับที่, รายการ, ราคาขาย   (header row 0, data from row 1)
+// File 4-7: simple facility files
+// cols: ลำดับที่, รายการ, ราคาขาย [, จำนวน]   (header row 0, data from row 1)
 // ---------------------------------------------------------------------------
 function extractSimple(file, fixture) {
   const conf = FACILITIES[fixture];
@@ -309,6 +310,7 @@ function extractSimple(file, fixture) {
     seq += 1;
     const id = `${conf.code}-${String(seq).padStart(2, '0')}`;
     const price = toNumber(r[2]);
+    const stock = toNumber(r[3]);
     const barcode = makeBarcode(conf.barcodeFacility, seq);
 
     products.push({
@@ -325,7 +327,7 @@ function extractSimple(file, fixture) {
       height: null,
       dimension: null,
       weight: null,
-      stock: null,
+      stock,
       note: null,
       units: 1,
       barcode,
@@ -348,12 +350,16 @@ function extractPhitsanulok() {
   return extractSimple('ผลิตภัณฑ์ ทัณฑสถานหญิงพิษณุโลก.xlsx', 'ทัณฑสถานหญิงพิษณุโลก');
 }
 
+function extractChiangRai() {
+  return extractSimple('ผลิตภัณฑ์ เรือนจำกลางเชียงราย.xlsx', 'เรือนจำกลางเชียงราย');
+}
+
 // ---------------------------------------------------------------------------
 function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
 
-  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom(), ...extractPhitsanulok()];
+  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom(), ...extractPhitsanulok(), ...extractChiangRai()];
 
   for (const p of products) {
     fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
