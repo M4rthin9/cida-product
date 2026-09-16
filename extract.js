@@ -10,7 +10,9 @@ const OUT_JSON = path.join(PUBLIC, 'data', 'products.json');
 const FACILITIES = {
   'ทัณฑสถานบำบัดพิเศษกลาง': { code: 'TBS', short: 'บำบัดพิเศษกลาง', color: '#166349', barcodeFacility: '0001' },
   'ทัณฑสถานหญิงกลาง':       { code: 'THK', short: 'หญิงกลาง',       color: '#8a3a5c', barcodeFacility: '0002' },
-  'เรือนจำพิเศษธนบุรี':      { code: 'TNB', short: 'ธนบุรี',          color: '#2b5aa6', barcodeFacility: '0003' }
+  'เรือนจำพิเศษธนบุรี':      { code: 'TNB', short: 'ธนบุรี',          color: '#2b5aa6', barcodeFacility: '0003' },
+  'ทัณฑสถานหญิงชลบุรี':     { code: 'CBK', short: 'หญิงชลบุรี',      color: '#6b5b95', barcodeFacility: '0004' },
+  'เรือนจำกลางนครปฐม':      { code: 'NPT', short: 'นครปฐม',         color: '#8c5e3c', barcodeFacility: '0005' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -288,11 +290,65 @@ function extractThonburi() {
 }
 
 // ---------------------------------------------------------------------------
+// File 4 & 5: ทัณฑสถานหญิงชลบุรี / เรือนจำกลางนครปฐม
+// cols: ลำดับที่, รายการ, ราคาขาย   (header row 0, data from row 1)
+// ---------------------------------------------------------------------------
+function extractSimple(file, fixture) {
+  const conf = FACILITIES[fixture];
+  const rows = loadRows(path.join(ROOT, file));
+  const products = [];
+  let seq = 0;
+
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r) continue;
+    const name = clean(r[1]);
+    if (!name) continue;
+
+    seq += 1;
+    const id = `${conf.code}-${String(seq).padStart(2, '0')}`;
+    const price = toNumber(r[2]);
+    const barcode = makeBarcode(conf.barcodeFacility, seq);
+
+    products.push({
+      id,
+      company: fixture,
+      companyShort: conf.short,
+      companyCode: conf.code,
+      ...logoPaths(conf.code),
+      name,
+      description: null,
+      price,
+      width: null,
+      length: null,
+      height: null,
+      dimension: null,
+      weight: null,
+      stock: null,
+      note: null,
+      units: 1,
+      barcode,
+      image: `images/${barcode}.jpg`,
+      imageFallback: `images/${barcode}.svg`
+    });
+  }
+  return products;
+}
+
+function extractChonburi() {
+  return extractSimple('ผลิตภัณฑ์ ทัณฑสถานหญิงชลบุรี.xlsx', 'ทัณฑสถานหญิงชลบุรี');
+}
+
+function extractNakhonPathom() {
+  return extractSimple('ผลิตภัณฑ์ เรือนจำกลางนครปฐม.xlsx', 'เรือนจำกลางนครปฐม');
+}
+
+// ---------------------------------------------------------------------------
 function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
 
-  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi()];
+  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom()];
 
   for (const p of products) {
     fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
