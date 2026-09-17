@@ -17,7 +17,12 @@
     dim: document.getElementById('modalDim'),
     weight: document.getElementById('modalWeight'),
     note: document.getElementById('modalNote'),
-    desc: document.getElementById('modalDesc')
+    desc: document.getElementById('modalDesc'),
+    order: document.getElementById('modalOrder')
+  };
+
+  const LINE_LINKS = {
+    TBS: 'https://line.me/R/ti/p/%40932wxcsp'
   };
 
   let products = [];
@@ -129,6 +134,19 @@
     modalEls.desc.textContent = s.description || '';
     modalEls.note.style.display = s.note ? '' : 'none';
     modalEls.desc.style.display = s.description ? '' : 'none';
+    const lineUrl = LINE_LINKS[s.companyCode];
+    modalEls.order.textContent = 'สั่งซื้อ';
+    if (lineUrl) {
+      modalEls.order.href = lineUrl;
+      modalEls.order.classList.remove('disabled');
+      modalEls.order.removeAttribute('aria-disabled');
+      modalEls.order.removeAttribute('tabindex');
+    } else {
+      modalEls.order.removeAttribute('href');
+      modalEls.order.classList.add('disabled');
+      modalEls.order.setAttribute('aria-disabled', 'true');
+      modalEls.order.setAttribute('tabindex', '-1');
+    }
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
   }
