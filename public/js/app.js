@@ -22,7 +22,7 @@
   };
 
   const LINE_LINKS = {
-    TBS: 'https://line.me/R/ti/p/%40932wxcsp'
+    TBS: 'https://line.me/R/ti/p/%40355kxfoj'
   };
 
   let products = [];
