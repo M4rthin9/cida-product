@@ -13,7 +13,7 @@
       <a class="btn btn-back" href="index.html">← กลับแคตตาล็อก</a>
       <h1>เครื่องมือพิมพ์ป้ายราคา</h1>
       <label class="count-option">
-        จำนวนป้ายต่อสินค้า
+        ตั้งจำนวนป้ายอัตโนมัติ
         <select id="countMode">
           <option value="1">1 ใบต่อรายการ</option>
           <option value="units">ตามหน่วย (สินค้าที่ซ้ำกัน)</option>
@@ -23,13 +23,23 @@
       <button class="btn btn-main" id="btnPrint">พิมพ์ป้าย (Ctrl+P)</button>
     </div>
     <div class="bar-hint">
-      ขนาดป้าย <strong>5.5 × 9 ซม.</strong> · แผ่น A4 จำนวน 9 ป้าย/หน้า · ตั้งค่ากระดาษ A4, ระยะขอบ 0, ปรับสเกล 100%
+      ขนาดป้าย <strong>5.5 × 9 ซม.</strong> · แผ่น A4 จำนวน 9 ป้าย/หน้า · ตั้งค่ากระดาษ A4, ระยะขอบ 0, ปรับสเกล 100%. กรองสินค้าด้านล่าง เลือก/ไม่เลือกแต่ละรายการ และกำหนดจำนวนป้ายต่อรายการได้เอง
     </div>
-    <label class="search-line">
-      ค้นหา: <input type="search" id="tagSearch" placeholder="กรองสินค้าที่จะพิมพ์…">
-      <span id="tagCount"></span>
-    </label>
   </header>
+
+  <section class="no-print control-panel">
+    <div class="control-head">
+      <label class="search-line">
+        ค้นหา: <input type="search" id="tagSearch" placeholder="กรองรายการสินค้า…">
+        <span id="tagCount"></span>
+      </label>
+      <div class="control-btns">
+        <button class="btn btn-mini" id="btnSelAll">เลือกทั้งหมด</button>
+        <button class="btn btn-mini" id="btnSelNone">ไม่เลือก</button>
+      </div>
+    </div>
+    <div id="productList" class="product-list"></div>
+  </section>
 
   <main id="tags" class="tag-grid" aria-live="polite"></main>
 
