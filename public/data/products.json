@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-17T05:39:37.283Z",
+    "generatedAt": "2026-09-17T06:14:17.550Z",
     "facility": [
       "TBS",
       "THK",
@@ -8,9 +8,10 @@
       "CBK",
       "NPT",
       "PSL",
-      "CRI"
+      "CRI",
+      "SKH"
     ],
-    "count": 413,
+    "count": 414,
     "companies": [
       {
         "code": "TBS",
@@ -60,6 +61,13 @@
         "short": "เชียงราย",
         "logo": "images/logo-CRI.png",
         "logoFallback": "images/logo-CRI.svg"
+      },
+      {
+        "code": "SKH",
+        "name": "ทัณฑสถานสงขลา",
+        "short": "สงขลา",
+        "logo": "images/logo-SKH.png",
+        "logoFallback": "images/logo-SKH.svg"
       }
     ]
   },
@@ -9314,6 +9322,28 @@
       "barcode": "8850007000174",
       "image": "images/8850007000174.jpg",
       "imageFallback": "images/8850007000174.svg"
+    },
+    {
+      "id": "SKH-01",
+      "company": "ทัณฑสถานสงขลา",
+      "companyShort": "สงขลา",
+      "companyCode": "SKH",
+      "logo": "images/logo-SKH.png",
+      "logoFallback": "images/logo-SKH.svg",
+      "name": "เรือสำเภาไทย",
+      "description": null,
+      "price": 6000,
+      "width": null,
+      "length": null,
+      "height": null,
+      "dimension": null,
+      "weight": null,
+      "stock": null,
+      "note": null,
+      "units": 1,
+      "barcode": "8850008000111",
+      "image": "images/8850008000111.jpg",
+      "imageFallback": "images/8850008000111.svg"
     }
   ]
 }

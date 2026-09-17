@@ -14,7 +14,8 @@ const FACILITIES = {
   'ทัณฑสถานหญิงชลบุรี':     { code: 'CBK', short: 'หญิงชลบุรี',      color: '#6b5b95', barcodeFacility: '0004' },
   'เรือนจำกลางนครปฐม':      { code: 'NPT', short: 'นครปฐม',         color: '#8c5e3c', barcodeFacility: '0005' },
   'ทัณฑสถานหญิงพิษณุโลก':   { code: 'PSL', short: 'หญิงพิษณุโลก',    color: '#4a7c59', barcodeFacility: '0006' },
-  'เรือนจำกลางเชียงราย':    { code: 'CRI', short: 'เชียงราย',         color: '#c77d3a', barcodeFacility: '0007' }
+  'เรือนจำกลางเชียงราย':    { code: 'CRI', short: 'เชียงราย',         color: '#c77d3a', barcodeFacility: '0007' },
+  'ทัณฑสถานสงขลา':          { code: 'SKH', short: 'สงขลา',           color: '#146b8a', barcodeFacility: '0008' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -354,12 +355,16 @@ function extractChiangRai() {
   return extractSimple('ผลิตภัณฑ์ เรือนจำกลางเชียงราย.xlsx', 'เรือนจำกลางเชียงราย');
 }
 
+function extractSongkhla() {
+  return extractSimple('ผลิตภัณฑ์ ทัณฑสถานสงขลา.xlsx', 'ทัณฑสถานสงขลา');
+}
+
 // ---------------------------------------------------------------------------
 function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
 
-  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom(), ...extractPhitsanulok(), ...extractChiangRai()];
+  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom(), ...extractPhitsanulok(), ...extractChiangRai(), ...extractSongkhla()];
 
   for (const p of products) {
     fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
