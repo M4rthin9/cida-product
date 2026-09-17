@@ -2222,9 +2222,9 @@
       "stock": null,
       "note": null,
       "units": 1,
-      "barcode": "8850001000941",
-      "image": "images/8850001000941.jpg",
-      "imageFallback": "images/8850001000941.svg"
+      "barcode": "8850099000014",
+      "image": "images/8850099000014.jpg",
+      "imageFallback": "images/8850099000014.svg"
     },
     {
       "id": "THK-01",
@@ -3671,9 +3671,9 @@
       "stock": null,
       "note": null,
       "units": 1,
-      "barcode": "8850002000636",
-      "image": "images/8850002000636.jpg",
-      "imageFallback": "images/8850002000636.svg"
+      "barcode": "8850099000021",
+      "image": "images/8850099000021.jpg",
+      "imageFallback": "images/8850099000021.svg"
     },
     {
       "id": "THK-64",
@@ -3694,9 +3694,9 @@
       "stock": null,
       "note": null,
       "units": 1,
-      "barcode": "8850002000643",
-      "image": "images/8850002000643.jpg",
-      "imageFallback": "images/8850002000643.svg"
+      "barcode": "8850099000038",
+      "image": "images/8850099000038.jpg",
+      "imageFallback": "images/8850099000038.svg"
     },
     {
       "id": "THK-65",
