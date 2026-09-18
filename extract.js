@@ -360,6 +360,56 @@ function extractSongkhla() {
 }
 
 // ---------------------------------------------------------------------------
+const EXTRACTORS = {
+  TBS: extractRehab,
+  THK: extractWomen,
+  TNB: extractThonburi,
+  CBK: extractChonburi,
+  NPT: extractNakhonPathom,
+  PSL: extractPhitsanulok,
+  CRI: extractChiangRai,
+  SKH: extractSongkhla
+};
+
+// Extract a single facility and merge ONLY new barcodes into products.json.
+// Existing entries (manual prices, real photos) are left untouched.
+function mergeFacility(code) {
+  const extractor = EXTRACTORS[code];
+  if (!extractor) throw new Error(`Unknown facility code: ${code}`);
+  const fixture = Object.keys(FACILITIES).find(name => FACILITIES[name].code === code);
+
+  if (!fs.existsSync(OUT_JSON)) {
+    console.log(`products.json not found — running a full extract first.`);
+    return main();
+  }
+
+  const data = JSON.parse(fs.readFileSync(OUT_JSON, 'utf8'));
+  const existing = new Set(data.products.map(p => p.barcode));
+  const incoming = extractor();
+  const added = [];
+
+  for (const p of incoming) {
+    if (existing.has(p.barcode)) continue;
+    fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
+    added.push(p);
+    existing.add(p.barcode);
+  }
+
+  if (added.length) {
+    const lastIdx = data.products.map(p => p.companyCode).lastIndexOf(code);
+    if (lastIdx >= 0) data.products.splice(lastIdx + 1, 0, ...added);
+    else data.products.push(...added);
+    data.meta.count = data.products.length;
+    data.meta.generatedAt = new Date().toISOString();
+    fs.writeFileSync(OUT_JSON, JSON.stringify(data, null, 2), 'utf8');
+  }
+
+  console.log(`Merged ${added.length} new product(s) for ${fixture} (${code}). Total: ${data.products.length}`);
+  for (const p of added) console.log(`  + ${p.id}  ${p.barcode}  ${p.name}  (${p.price})`);
+  return added;
+}
+
+// ---------------------------------------------------------------------------
 function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
@@ -403,4 +453,13 @@ function main() {
   console.log(JSON.stringify(byCompany, null, 2));
 }
 
-main();
+if (require.main === module) {
+  const arg = process.argv.find(a => a.startsWith('--facility='));
+  if (arg) {
+    mergeFacility(arg.split('=')[1].trim().toUpperCase());
+  } else {
+    main();
+  }
+}
+
+module.exports = { main, mergeFacility, FACILITIES, EXTRACTORS };

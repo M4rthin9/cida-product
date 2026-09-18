@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "extract": "node extract.js"
+    "extract": "node extract.js",
+    "extract:npt": "node extract.js --facility=NPT"
   },
   "keywords": [],
   "author": "",
