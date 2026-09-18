@@ -15,7 +15,9 @@ const FACILITIES = {
   'เรือนจำกลางนครปฐม':      { code: 'NPT', short: 'นครปฐม',         color: '#8c5e3c', barcodeFacility: '0005' },
   'ทัณฑสถานหญิงพิษณุโลก':   { code: 'PSL', short: 'หญิงพิษณุโลก',    color: '#4a7c59', barcodeFacility: '0006' },
   'เรือนจำกลางเชียงราย':    { code: 'CRI', short: 'เชียงราย',         color: '#c77d3a', barcodeFacility: '0007' },
-  'ทัณฑสถานสงขลา':          { code: 'SKH', short: 'สงขลา',           color: '#146b8a', barcodeFacility: '0008' }
+  'ทัณฑสถานสงขลา':          { code: 'SKH', short: 'สงขลา',           color: '#146b8a', barcodeFacility: '0008' },
+  'ทัณฑสถานหญิงนครราชสีมา': { code: 'NRK', short: 'หญิงนครราชสีมา',  color: '#0f766e', barcodeFacility: '0009' },
+  'ทัณฑสถานหญิงธนบุรี':      { code: 'THB', short: 'หญิงธนบุรี',       color: '#6a2c70', barcodeFacility: '0010' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -359,6 +361,14 @@ function extractSongkhla() {
   return extractSimple('ผลิตภัณฑ์ ทัณฑสถานสงขลา.xlsx', 'ทัณฑสถานสงขลา');
 }
 
+function extractNakhonRatchasima() {
+  return extractSimple('ผลิตภัณฑ์ ทัณฑสถานหญิงนครราชสีมา.xlsx', 'ทัณฑสถานหญิงนครราชสีมา');
+}
+
+function extractThonburiWomen() {
+  return extractSimple('ผลิตภัณฑ์ ทัณฑสถานหญิงธนบุรี.xlsx', 'ทัณฑสถานหญิงธนบุรี');
+}
+
 // ---------------------------------------------------------------------------
 const EXTRACTORS = {
   TBS: extractRehab,
@@ -368,7 +378,9 @@ const EXTRACTORS = {
   NPT: extractNakhonPathom,
   PSL: extractPhitsanulok,
   CRI: extractChiangRai,
-  SKH: extractSongkhla
+  SKH: extractSongkhla,
+  NRK: extractNakhonRatchasima,
+  THB: extractThonburiWomen
 };
 
 // Extract a single facility and merge ONLY new barcodes into products.json.
@@ -387,6 +399,23 @@ function mergeFacility(code) {
   const existing = new Set(data.products.map(p => p.barcode));
   const incoming = extractor();
   const added = [];
+
+  // Ensure this facility's logo placeholder exists (svgs only written when missing).
+  const logoSvg = path.join(IMAGES, `logo-${code}.svg`);
+  const logoPng = path.join(IMAGES, `logo-${code}.png`);
+  if (!fs.existsSync(logoPng) && !fs.existsSync(logoSvg)) {
+    fs.writeFileSync(logoSvg, makeLogoSvg(FACILITIES[fixture], fixture), 'utf8');
+  }
+
+  // Ensure meta.facility and meta.companies include this facility.
+  if (data.meta && !data.meta.facility.includes(code)) data.meta.facility.push(code);
+  if (data.meta) {
+    const companies = data.meta.companies || [];
+    if (!companies.some(c => c.code === code)) {
+      companies.push({ code, name: fixture, short: FACILITIES[fixture].short, ...logoPaths(code) });
+      data.meta.companies = companies;
+    }
+  }
 
   for (const p of incoming) {
     if (existing.has(p.barcode)) continue;
@@ -414,7 +443,7 @@ function main() {
   fs.mkdirSync(path.join(PUBLIC, 'data'), { recursive: true });
   fs.mkdirSync(IMAGES, { recursive: true });
 
-  const products = [...extractRehab(), ...extractWomen(), ...extractThonburi(), ...extractChonburi(), ...extractNakhonPathom(), ...extractPhitsanulok(), ...extractChiangRai(), ...extractSongkhla()];
+  const products = Object.values(EXTRACTORS).flatMap(fn => fn());
 
   for (const p of products) {
     fs.writeFileSync(path.join(IMAGES, `${p.barcode}.svg`), makePlaceholderSvg(p), 'utf8');
