@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-21T10:03:53.234Z",
+    "generatedAt": "2026-09-21T23:18:28.089Z",
     "facility": [
       "TBS",
       "THK",
@@ -10700,9 +10700,9 @@
       "stock": null,
       "note": null,
       "units": 1,
-      "barcode": "9999999999",
-      "image": "images/9999999999.jpg",
-      "imageFallback": "images/9999999999.svg"
+      "barcode": "3675395308825",
+      "image": "images/3675395308825.jpg",
+      "imageFallback": "images/3675395308825.svg"
     }
   ]
 }
