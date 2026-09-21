@@ -357,8 +357,49 @@ function extractChiangRai() {
   return extractSimple('ผลิตภัณฑ์ เรือนจำกลางเชียงราย.xlsx', 'เรือนจำกลางเชียงราย');
 }
 
+// ---------------------------------------------------------------------------
+// File 8: ทัณฑสถานสงขลา
+// cols: ลำดับ, รายการ, จำนวน, ราคา   (header row 0, data from row 1)
+// จำนวน is mapped to stock, ราคา to price.
+// ---------------------------------------------------------------------------
 function extractSongkhla() {
-  return extractSimple('ผลิตภัณฑ์ ทัณฑสถานสงขลา.xlsx', 'ทัณฑสถานสงขลา');
+  const fixture = 'ทัณฑสถานสงขลา';
+  const conf = FACILITIES[fixture];
+  const rows = loadRows(path.join(ROOT, 'ผลิตภัณฑ์ ทัณฑสถานสงขลา.xlsx'));
+  const products = [];
+  let seq = 0;
+
+  for (let i = 1; i < rows.length; i++) {
+    const r = rows[i];
+    if (!r) continue;
+    const name = clean(r[1]);
+    if (!name) continue;
+
+    seq += 1;
+    const barcode = makeBarcode(conf.barcodeFacility, seq);
+    products.push({
+      id: `${conf.code}-${String(seq).padStart(2, '0')}`,
+      company: fixture,
+      companyShort: conf.short,
+      companyCode: conf.code,
+      ...logoPaths(conf.code),
+      name,
+      description: null,
+      price: toNumber(r[3]),
+      width: null,
+      length: null,
+      height: null,
+      dimension: null,
+      weight: null,
+      stock: toNumber(r[2]),
+      note: null,
+      units: 1,
+      barcode,
+      image: `images/${barcode}.jpg`,
+      imageFallback: `images/${barcode}.svg`
+    });
+  }
+  return products;
 }
 
 function extractNakhonRatchasima() {
@@ -491,4 +532,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { main, mergeFacility, FACILITIES, EXTRACTORS };
+module.exports = { main, mergeFacility, FACILITIES, EXTRACTORS, makePlaceholderSvg, logoPaths };

@@ -7,7 +7,7 @@
     <path d="M-85,-60 L-85,40 M0,-110 L0,90 M85,-60 L85,40"/>
     <polygon points="-85,-60 0,-10 85,-60" stroke-linejoin="round"/>
   </g>
-  <text x="300" y="470" text-anchor="middle" font-size="25" font-weight="bold" fill="#5b5346" font-family="Tahoma, 'Sukhumvit Set', sans-serif">เรือสำเภาไทย</text>
-  <text x="300" y="552" text-anchor="middle" font-size="20" fill="#9a917f" font-family="Tahoma, sans-serif">ทัณฑสถานสงขลา</text>
-  <text x="300" y="585" text-anchor="middle" font-size="14" fill="#c3bbaa" font-family="monospace">SKH-01  ·  รหัส 8850008000111</text>
+  <text x="300" y="470" text-anchor="middle" font-size="25" font-weight="bold" fill="#5b5346" font-family="Tahoma, 'Sukhumvit Set', sans-serif">ภาพจิตรกรรมไทย</text>
+  <text x="300" y="552" text-anchor="middle" font-size="20" fill="#9a917f" font-family="Tahoma, sans-serif">เรือนจำพิเศษธนบุรี</text>
+  <text x="300" y="585" text-anchor="middle" font-size="14" fill="#c3bbaa" font-family="monospace">TNB-149  ·  รหัส 2000000000107</text>
 </svg>

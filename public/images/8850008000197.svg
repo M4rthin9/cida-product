@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#f4f2ec"/>
+  <rect x="22" y="22" width="556" height="556" fill="none" stroke="#ddd6c8" stroke-width="3" stroke-dasharray="10 10"/>
+  <text x="300" y="120" text-anchor="middle" font-size="26" fill="#a99f8d" font-family="Tahoma, sans-serif">ผลิตภัณฑ์ราชทัณฑ์</text>
+  <g stroke="#b8ad9c" stroke-width="7" fill="none" stroke-linejoin="round" transform="translate(300 290) rotate(0)">
+    <polygon points="-85,-60 0,-110 85,-60 85,40 0,90 -85,40" stroke-linejoin="round"/>
+    <path d="M-85,-60 L-85,40 M0,-110 L0,90 M85,-60 L85,40"/>
+    <polygon points="-85,-60 0,-10 85,-60" stroke-linejoin="round"/>
+  </g>
+  <text x="300" y="470" text-anchor="middle" font-size="25" font-weight="bold" fill="#5b5346" font-family="Tahoma, 'Sukhumvit Set', sans-serif">ผ้าถุงปักเลื่อ</text>
+  <text x="300" y="506" text-anchor="middle" font-size="25" font-weight="bold" fill="#5b5346" font-family="Tahoma, 'Sukhumvit Set', sans-serif">ม</text>
+  <text x="300" y="552" text-anchor="middle" font-size="20" fill="#9a917f" font-family="Tahoma, sans-serif">ทัณฑสถานสงขลา</text>
+  <text x="300" y="585" text-anchor="middle" font-size="14" fill="#c3bbaa" font-family="monospace">SKH-19  ·  รหัส 8850008000197</text>
+</svg>
