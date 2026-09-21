@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-09-21T04:18:09.818Z",
+    "generatedAt": "2026-09-21T10:03:53.234Z",
     "facility": [
       "TBS",
       "THK",
@@ -11,9 +11,10 @@
       "CRI",
       "SKH",
       "NRK",
-      "THB"
+      "THB",
+      "SPL"
     ],
-    "count": 473,
+    "count": 474,
     "companies": [
       {
         "code": "TBS",
@@ -84,6 +85,13 @@
         "short": "หญิงธนบุรี",
         "logo": "images/logo-THB.png",
         "logoFallback": "images/logo-THB.svg"
+      },
+      {
+        "code": "SPL",
+        "name": "อาจารย์ ภวัลย์ ดัชนี",
+        "short": "ภวัลย์ ดัชนี",
+        "logo": "images/logo-SPL.png",
+        "logoFallback": "images/logo-SPL.svg"
       }
     ]
   },
@@ -10673,6 +10681,28 @@
       "barcode": "8850008000227",
       "image": "images/8850008000227.jpg",
       "imageFallback": "images/8850008000227.svg"
+    },
+    {
+      "id": "SPL-01",
+      "company": "อาจารย์ ภวัลย์ ดัชนี",
+      "companyShort": "ภวัลย์ ดัชนี",
+      "companyCode": "SPL",
+      "logo": "images/logo-SPL.png",
+      "logoFallback": "images/logo-SPL.svg",
+      "name": "สินค้าพิเศษ",
+      "description": null,
+      "price": 2500000,
+      "width": null,
+      "length": null,
+      "height": null,
+      "dimension": null,
+      "weight": null,
+      "stock": null,
+      "note": null,
+      "units": 1,
+      "barcode": "9999999999",
+      "image": "images/9999999999.jpg",
+      "imageFallback": "images/9999999999.svg"
     }
   ]
 }

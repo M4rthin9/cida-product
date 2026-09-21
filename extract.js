@@ -17,7 +17,8 @@ const FACILITIES = {
   'เรือนจำกลางเชียงราย':    { code: 'CRI', short: 'เชียงราย',         color: '#c77d3a', barcodeFacility: '0007' },
   'ทัณฑสถานสงขลา':          { code: 'SKH', short: 'สงขลา',           color: '#146b8a', barcodeFacility: '0008' },
   'ทัณฑสถานหญิงนครราชสีมา': { code: 'NRK', short: 'หญิงนครราชสีมา',  color: '#0f766e', barcodeFacility: '0009' },
-  'ทัณฑสถานหญิงธนบุรี':      { code: 'THB', short: 'หญิงธนบุรี',       color: '#6a2c70', barcodeFacility: '0010' }
+  'ทัณฑสถานหญิงธนบุรี':      { code: 'THB', short: 'หญิงธนบุรี',       color: '#6a2c70', barcodeFacility: '0010' },
+  'อาจารย์ ภวัลย์ ดัชนี':     { code: 'SPL', short: 'ภวัลย์ ดัชนี',      color: '#d97706', barcodeFacility: '0011' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -555,4 +556,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { main, mergeFacility, FACILITIES, EXTRACTORS, makePlaceholderSvg, logoPaths };
+module.exports = { main, mergeFacility, FACILITIES, EXTRACTORS, makePlaceholderSvg, makeLogoSvg, logoPaths };

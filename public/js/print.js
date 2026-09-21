@@ -101,17 +101,21 @@
 
   function drawBarcode(svg, code) {
     if (typeof JsBarcode === 'undefined') return;
-    try {
+    const tryDraw = (format) => {
       JsBarcode(svg, code, {
-        format: 'EAN13',
+        format: format,
         lineColor: '#000',
         width: 1.4,
         height: 30,
         displayValue: true,
         margin: 0
       });
-    } catch (err) {
-      svg.outerHTML = '';
+      return true;
+    };
+    try { tryDraw('EAN13'); }
+    catch (err) {
+      try { tryDraw('CODE128'); }
+      catch (err2) { svg.outerHTML = ''; }
     }
   }
 
