@@ -187,14 +187,17 @@ function extractRehab() {
 // cols: ที่, รายการ, รูปภาพ, ราคา, ราคา x2, กว้าง, ยาว, สูง, หมายเหตุ
 // Duplicate rows (same product) are grouped into one SKU with a units count.
 // ---------------------------------------------------------------------------
-function extractWomen() {
+function extractWomen(opts) {
+  opts = opts || {};
   const fixture = 'ทัณฑสถานหญิงกลาง';
   const conf = FACILITIES[fixture];
   const rows = loadRows(path.join(ROOT, 'ผลิตภัณฑ์ ทัณฑสถานหญิงกลาง.xlsx'));
   const groups = new Map();
-  let seq = 0;
+  let seq = opts.startSeq || 0;
+  const startIdx = opts.fromRow != null ? opts.fromRow - 1 : 4;
+  const endIdx = opts.toRow != null ? opts.toRow - 1 : rows.length - 1;
 
-  for (let i = 4; i < rows.length; i++) {
+  for (let i = startIdx; i <= endIdx; i++) {
     const r = rows[i];
     if (!r) continue;
     const name = clean(r[1]);
@@ -426,7 +429,9 @@ const EXTRACTORS = {
 
 // Extract a single facility and merge ONLY new barcodes into products.json.
 // Existing entries (manual prices, real photos) are left untouched.
-function mergeFacility(code) {
+// opts.rows = { from, to } (sheet row numbers) to extract only that range.
+function mergeFacility(code, opts) {
+  opts = opts || {};
   const extractor = EXTRACTORS[code];
   if (!extractor) throw new Error(`Unknown facility code: ${code}`);
   const fixture = Object.keys(FACILITIES).find(name => FACILITIES[name].code === code);
@@ -438,7 +443,19 @@ function mergeFacility(code) {
 
   const data = JSON.parse(fs.readFileSync(OUT_JSON, 'utf8'));
   const existing = new Set(data.products.map(p => p.barcode));
-  const incoming = extractor();
+
+  // For range extracts, continue the id/barcode sequence from the highest
+  // existing SKU for that facility instead of restarting at 01.
+  const extractOpts = {};
+  if (opts.rows) {
+    extractOpts.fromRow = opts.rows.from;
+    extractOpts.toRow = opts.rows.to;
+    const ids = data.products.filter(p => p.companyCode === code)
+      .map(p => parseInt(p.id.split('-')[1], 10)).filter(Number.isFinite);
+    extractOpts.startSeq = Math.max(0, ...ids);
+  }
+
+  const incoming = extractor(extractOpts);
   const added = [];
 
   // Ensure this facility's logo placeholder exists (svgs only written when missing).
@@ -526,7 +543,13 @@ function main() {
 if (require.main === module) {
   const arg = process.argv.find(a => a.startsWith('--facility='));
   if (arg) {
-    mergeFacility(arg.split('=')[1].trim().toUpperCase());
+    const rowsArg = process.argv.find(a => a.startsWith('--rows='));
+    let opts = {};
+    if (rowsArg) {
+      const [from, to] = rowsArg.split('=')[1].split('-').map(n => parseInt(n, 10));
+      opts.rows = { from, to };
+    }
+    mergeFacility(arg.split('=')[1].trim().toUpperCase(), opts);
   } else {
     main();
   }
