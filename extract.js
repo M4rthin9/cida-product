@@ -18,7 +18,8 @@ const FACILITIES = {
   'ทัณฑสถานสงขลา':          { code: 'SKH', short: 'สงขลา',           color: '#146b8a', barcodeFacility: '0008' },
   'ทัณฑสถานหญิงนครราชสีมา': { code: 'NRK', short: 'หญิงนครราชสีมา',  color: '#0f766e', barcodeFacility: '0009' },
   'ทัณฑสถานหญิงธนบุรี':      { code: 'THB', short: 'หญิงธนบุรี',       color: '#6a2c70', barcodeFacility: '0010' },
-  'อาจารย์ ภวัลย์ ดัชนี':     { code: 'SPL', short: 'ภวัลย์ ดัชนี',      color: '#d97706', barcodeFacility: '0011' }
+  'อาจารย์ ภวัลย์ ดัชนี':     { code: 'SPL', short: 'ภวัลย์ ดัชนี',      color: '#d97706', barcodeFacility: '0011' },
+  'เรือนจำอำเภอฝาง':        { code: 'FNG', short: 'อำเภอฝาง',          color: '#b03a2e', barcodeFacility: '0012' }
 };
 
 const THAI_DIGITS = { '๐': '0', '๑': '1', '๒': '2', '๓': '3', '๔': '4', '๕': '5', '๖': '6', '๗': '7', '๘': '8', '๙': '9' };
@@ -414,6 +415,10 @@ function extractThonburiWomen() {
   return extractSimple('ผลิตภัณฑ์ ทัณฑสถานหญิงธนบุรี.xlsx', 'ทัณฑสถานหญิงธนบุรี');
 }
 
+function extractFang() {
+  return extractSimple('ผลิตภัณฑ์ เรือนจำอำเภอฝาง.xlsx', 'เรือนจำอำเภอฝาง');
+}
+
 // ---------------------------------------------------------------------------
 const EXTRACTORS = {
   TBS: extractRehab,
@@ -425,7 +430,8 @@ const EXTRACTORS = {
   CRI: extractChiangRai,
   SKH: extractSongkhla,
   NRK: extractNakhonRatchasima,
-  THB: extractThonburiWomen
+  THB: extractThonburiWomen,
+  FNG: extractFang
 };
 
 // Extract a single facility and merge ONLY new barcodes into products.json.
